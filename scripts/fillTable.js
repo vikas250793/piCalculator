@@ -1,8 +1,5 @@
 function fillTable(){
-
-    let rateInpt = document.getElementById('interestRate');
-    let amountInpt = document.getElementById('loanAmount');
-    let termInpt = document.getElementById('loanTerm');
+    let formatMonthPayment = "";
 
     let rate = rateInpt.value;
     let loanAmount = amountInpt.value;
@@ -17,6 +14,9 @@ function fillTable(){
     let indexCal = powmonthlyRate(normalisedRate,normalisedTerm);
     let monthlyPayment = getMonthlyPayment(outStandingBalance,normalisedRate,indexCal);
 
+    let totalInterestPaid = 0.00;
+    let totalPrincipalPaid =0.00;
+
     for (i=1;i<=normalisedTerm;i++){
         
         let interestPaid = normalisedRate*outStandingBalance;
@@ -24,7 +24,10 @@ function fillTable(){
         totalAmountPaid += monthlyPayment;
         outStandingBalance -= principalPaid;
 
-        let formatMonthPayment = getFormatted(monthlyPayment);
+        totalInterestPaid += interestPaid;
+        totalPrincipalPaid += principalPaid;
+
+        formatMonthPayment = getFormatted(monthlyPayment);
         let formatPrincipalPaid = getFormatted(principalPaid);
         let formatInterestPaid = getFormatted(interestPaid);
         let formatTotalAmountPaid = getFormatted(totalAmountPaid);
@@ -63,15 +66,21 @@ function fillTable(){
       <th>Balance</th>
     </tr>
     ${htmlTableOut}
-  </table>`;
-
-  buttons.innerHTML = `
-  <button onclick="fillTable()">Calculate</button>
-  <button onclick="clearTable()">Clear</button>
-  <button onclick="generatePDF()">Export PDF</button>
-  <button onclick="exportToCsv()">Export csv</button>
+  </table>
+  
   `;
 
-  paymentTableClass[0].classList.toggle('active');
-  payTableData[0].classList.toggle('active');
+  exportButtons.innerHTML = `
+    <button onclick="generatePDF()">Export PDF</button>
+    <button onclick="exportToCsv()">Export csv</button>
+  `;
+
+  paymentSummary.innerHTML = `
+    <div>
+        <h3>Monthly Payment</h3>
+        <h3>${formatMonthPayment}</h3>
+    </div>
+    <div id="donutchart" style="width: 100%; height: 400px;"></div>
+  `;
+  drawChart(totalInterestPaid,totalPrincipalPaid);
 }
