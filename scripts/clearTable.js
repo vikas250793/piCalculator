@@ -10,11 +10,12 @@ function clearTable(){
     </tr>
   </table>`;
 
-  buttons.innerHTML = `
-  <button onclick="fillTable()">Calculate</button>
-  <button onclick="clearTable()">Clear</button>
+  exportButtons.innerHTML = `
   `;
 
-  paymentTableClass[0].classList.toggle('active');
-  payTableData[0].classList.toggle('active');
+  paymentSummary.innerHTML = "";
+
+  rateInpt.setAttribute('value',0);
+  amountInpt.setAttribute('value',0);
+  termInpt.setAttribute('value',0);
 }

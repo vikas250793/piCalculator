@@ -1,11 +1,17 @@
 const paymentTableClass = document.getElementsByClassName('paymentTable');
 const payTableData = document.getElementsByClassName('payTableData');
-const buttons = document.getElementById("calcButtons");
+const Calcbuttons = document.getElementById("calcButtons");
+const exportButtons = document.getElementById("exports");
 const paymentTableData = document.getElementById("tableToExport");
+const paymentSummary = document.getElementById("paymentSummary");
+
+let rateInpt = document.getElementById('interestRate');
+let amountInpt = document.getElementById('loanAmount');
+let termInpt = document.getElementById('loanTerm');
 
 function exportToCsv(){
     var table2excel = new Table2Excel();
-    table2excel.export(document.querySelectorAll("#tableToExport"));
+    table2excel.export(paymentTableData);
 }
 
 
